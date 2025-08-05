@@ -37,10 +37,6 @@ After the above steps, the models can be used, following the examples in [exampl
 
 See [examples/examples.ipnb](examples/examples.ipynb) for usage examples.
 
-## Support
-
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
 ## Roadmap
 
 At some point, the package may include code for the generation of random realizations of velocities within the uncertainty specifications of VELMOD3.1 and the generation of S-wave velocities on the basis of S-to-P relations.
@@ -51,7 +47,7 @@ At some point, the package may include the VELMOD 4b velocity models.
 
 MIT License
 
-Copyright (c) 2023 TNO
+Copyright (c) 2023-2025 TNO
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
