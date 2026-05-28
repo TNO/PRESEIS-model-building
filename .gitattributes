@@ -1,0 +1,5 @@
+# Keep shell scripts and hooks executable on Unix-like systems.
+*.sh text eol=lf
+.githooks/* text eol=lf
+.github-staging-exclude text eol=lf
+README_GIT_POLICY.md text eol=lf

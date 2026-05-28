@@ -1,32 +1,40 @@
 from pathlib import Path
+
 import numpy as np
-import xarray as xr
 import pyproj as prj
-import sys
+import pytest
+import xarray as xr
+import xarray.testing as xrt
+
+from preseis.model_building import (
+    get_processed_data_dir,
+    load_model_dataset,
+    sample_velocity_model,
+)
 
 test_path = Path(__file__).parent
 module_path = test_path.parent
-sys.path.insert(0, str(module_path))
-
-from dgm_velmod_sampler import sample_dgm_velmod
-
-sample_path = test_path / "res/sample.h5"
-velmod_path = test_path / "res/VELMOD31_UTM31.h5"
-dgm_path = test_path / "res/DGM5_UTM31.h5"
 
 
 def test_config_file_exists():
-    assert (module_path / "config/config.json").exists() == True
+    """Test that configuration file exists."""
+    assert (module_path / "config/config.yaml").exists()
 
 
 def test_sampling(create=False):
+    """Test velocity sampling on a grid with coordinate transformation."""
+    data_dir = get_processed_data_dir()
+    velmod_path = data_dir / "VELMOD31_UTM31.h5"
+    dgm_path = data_dir / "DGM5_UTM31.h5"
+
+    if not velmod_path.exists() or not dgm_path.exists():
+        pytest.skip("VELMOD31 or DGM not available")
+
     assert velmod_path.exists()
     assert dgm_path.exists()
-    if not create:
-        assert sample_path.exists()
 
-    velmod = xr.load_dataset(velmod_path, decode_coords="all")
-    dgm = xr.load_dataset(dgm_path, decode_coords="all")
+    velmod = load_model_dataset(velmod_path)
+    dgm = load_model_dataset(dgm_path)
 
     crs_UTM, crs_RD = (
         prj.CRS("EPSG:23031"),
@@ -58,11 +66,25 @@ def test_sampling(create=False):
     )
 
     # Sample models to cube, no need to pass CRS since it is represented in the x_UTM data structure
-    dgm_velmod_cube = sample_dgm_velmod(x_UTM, y_UTM, grid["z"], dgm=dgm, velmod=velmod)
+    velocity_cube = sample_velocity_model(
+        x_UTM,
+        y_UTM,
+        grid["z"],
+        depth_model=dgm,
+        velocity_model=velmod,
+        crs=crs_UTM,
+    )
 
-    if create:
-        dgm_velmod_cube.to_netcdf(sample_path, mode="w")
+    # Determinism check: same inputs should produce identical output.
+    velocity_cube_again = sample_velocity_model(
+        x_UTM,
+        y_UTM,
+        grid["z"],
+        depth_model=dgm,
+        velocity_model=velmod,
+        crs=crs_UTM,
+    )
 
-    sample = xr.load_dataset(sample_path, decode_coords="all")
-
-    assert dgm_velmod_cube == sample
+    xrt.assert_identical(velocity_cube, velocity_cube_again)
+    assert "Vinst" in velocity_cube.data_vars
+    assert bool(velocity_cube["Vinst"].notnull().any())

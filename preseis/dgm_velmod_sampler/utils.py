@@ -1,0 +1,41 @@
+"""Compatibility utilities module for the legacy PRESEIS import path."""
+
+from ..model_building.utils import (
+    MODEL_DATASET_ENGINE,
+    expand_model_dependencies,
+    get_available_model_names,
+    get_config_path,
+    get_data_dir,
+    get_default_model_names,
+    get_model_config,
+    get_model_output_file,
+    get_package_root,
+    get_processed_data_dir,
+    get_public_model_name,
+    get_raw_data_dir,
+    get_velmod_config,
+    load_config,
+    load_model_dataset,
+    normalize_model_name,
+    open_model_dataset,
+)
+
+__all__ = [
+    "MODEL_DATASET_ENGINE",
+    "expand_model_dependencies",
+    "get_available_model_names",
+    "get_config_path",
+    "get_data_dir",
+    "get_default_model_names",
+    "get_model_config",
+    "get_model_output_file",
+    "get_package_root",
+    "get_processed_data_dir",
+    "get_public_model_name",
+    "get_raw_data_dir",
+    "get_velmod_config",
+    "load_config",
+    "load_model_dataset",
+    "normalize_model_name",
+    "open_model_dataset",
+]

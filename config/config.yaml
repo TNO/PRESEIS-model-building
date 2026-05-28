@@ -1,0 +1,70 @@
+models:
+  dgm:
+    name: DGM-diep V5
+    description: Deep subsurface geological model of the Netherlands
+    directory: dgmdeep5
+    output_file: DGM5_UTM31.h5
+    zmap_pattern: '**/dgmdeep5/**/*tvd*merge_*UTM31.zmap'
+    downloads:
+      - https://www.nlog.nl/sites/default/files/2022-04/1-nu_dgmdeep5_zmap.zip
+      - https://www.nlog.nl/sites/default/files/2022-04/2_nlnm_dgmdeep5_zmap.zip
+      - https://www.nlog.nl/sites/default/files/2019-12/3-ck_dgmdeep5_zmap.zip
+      - https://www.nlog.nl/sites/default/files/2019-12/4-kn_dgmdeep5_zmap.zip
+      - https://www.nlog.nl/sites/default/files/2019-12/5-s_dgmdeep5_zmap.zip
+      - https://www.nlog.nl/sites/default/files/2019-12/6-atpo_dgmdeep5_zmap.zip
+      - https://www.nlog.nl/sites/default/files/2019-12/7-at_dgmdeep5_zmap.zip
+      - https://www.nlog.nl/sites/default/files/2019-12/8-rn_dgmdeep5_zmap.zip
+      - https://www.nlog.nl/sites/default/files/2019-12/9-rb_dgmdeep5_zmap.zip
+      - https://www.nlog.nl/sites/default/files/2022-04/10-ze_dgmdeep5_zmap.zip
+      - https://www.nlog.nl/sites/default/files/2019-12/11-ro_dgmdeep5_zmap.zip
+      - https://www.nlog.nl/sites/default/files/2022-04/12-dcc_dgmdeep5_zmap.zip
+  velmod31:
+    name: VELMOD 3.1
+    description: Regional seismic velocity model (2017)
+    version: '3.1'
+    requires:
+      - dgm
+    directory: velmod31
+    k_file: velmod31_k.csv
+    output_file: VELMOD31_UTM31.h5
+    zmap_pattern: '**/velmod31/**/*.dat'
+    downloads:
+      - https://www.nlog.nl/sites/default/files/velmod_3.1_zmap.zip
+  velmod32:
+    name: VELMOD 3.2
+    description: Regional seismic velocity model (March 2024)
+    version: '3.2'
+    requires:
+      - dgm
+    directory: velmod32
+    k_file: velmod32_k.csv
+    output_file: VELMOD32_UTM31.h5
+    zmap_pattern: '**/velmod32/**/*.dat'
+    downloads:
+      - https://www.nlog.nl/sites/default/files/2024-05/appendix_b_maps_grids.zip
+  velmod4:
+    name: VELMOD 4
+    description: Regional seismic velocity model (April 2020)
+    version: '4'
+    directory: velmod4
+    k_file: velmod4_k.csv
+    output_file: VELMOD4_UTM31.h5
+    zmap_pattern: '**/velmod4/**/*.dat'
+    downloads:
+      - https://www.nlog.nl/sites/default/files/2022-03/velmod-4b_grids_zmap.zip
+  groningen:
+    name: Groningen 2017
+    description: NAM Groningen gas field velocity model (September 2017)
+    version: groningen
+    directory: groningen_velocity_model
+    k_file: groningen_k.csv
+    vp_vs_file: groningen_vp_vs.csv
+    output_file: GRONINGEN_2017_RD.h5
+    downloads:
+      - url: https://nam-onderzoeksrapporten.data-app.nl/reports/download/groningen/en/3b4f8b0d-0277-40e0-8ff5-9a385c08327d
+        filename: NAM_3D_model_Sept_2017.tar
+
+xarray_archive:
+  provider: zenodo
+  url: https://zenodo.org/records/20287245/files/preseis-model-building-xarray-models.zip?download=1
+  filename: preseis-model-building-xarray-models.zip

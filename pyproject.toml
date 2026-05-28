@@ -1,0 +1,65 @@
+[project]
+name = "preseis-model-building"
+version = "0.1.0"
+description = "PRESEIS model-building tools for configured layered subsurface models"
+authors = [{name = "TNO"}]
+readme = "README.md"
+requires-python = ">=3.9"
+license = {file = "LICENSE"}
+
+dependencies = [
+    "numpy>=1.20.0",
+    "pandas>=1.3.0",
+    "scipy>=1.10.0",
+    "xarray>=0.19.0",
+    "rioxarray>=0.8.0",
+    "pyproj>=3.0.0",
+    "wget>=3.2",
+    "json5>=0.9.0",
+    "zmapio>=0.8.0",
+    "tqdm>=4.60.0",
+    "pyyaml>=6.0.3",
+    "h5netcdf>=1.7.3",
+    "h5py>=3.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=3.0.0",
+    "jupyter>=1.0.0",
+    "ipykernel>=6.0.0",
+    "matplotlib>=3.5.0",
+    "contextily>=1.6.2",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["preseis"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+addopts = "-m 'not slow'"
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N"]
+ignore = [
+    "E501",  # Line too long (handled by formatter for code, docstrings are flexible)
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Legacy scripts use domain-specific naming (UTM, RD coordinate systems)
+"scripts/convert.py" = ["N806", "N816"]
+"tests/test_*.py" = ["N806", "N816"]
+"notebooks/*.ipynb" = ["N816", "E501"]

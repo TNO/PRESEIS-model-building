@@ -1,0 +1,11 @@
+unit,relationship_type,slope,intercept,v0,notes,source
+Upper_NS,ratio_depth,-0.0047,4.782,,"Vp/Vs = 4.782 - 0.0047*Z → Vs(z) = Vp(z)/(4.782 - 0.0047*z) [rational function]","NAM Groningen 2017, sept2017_velo_model.xlsx"
+Lower_NS,ratio_constant,3.2,0.0,,"Vp/Vs = 3.2 (constant ratio) → Vs = Vp/3.2","NAM Groningen 2017, sept2017_velo_model.xlsx"
+Chalk,linear,0.6045,-415.6,,"Vs = 0.6045*Vp - 415.6 (m/s)","NAM Groningen 2017, sept2017_velo_model.xlsx"
+KN_JW_TR,linear,0.7423,-745.003,,"Vs = 0.7423*Vp - 745.003 (m/s)","NAM Groningen 2017, sept2017_velo_model.xlsx"
+ZE_Halite_1,constant,2486,0.0,4400,"Vs = 2486 m/s (halite), Vp = 4400 m/s","NAM Groningen 2017, Upper halite layer"
+ZE_Anhydrite_Floater,constant,3238,0.0,5900,"Vs = 3238 m/s (anhydrite floater), Vp = 5900 m/s","NAM Groningen 2017, Floater between halite layers"
+ZE_Halite_2,constant,2486,0.0,4400,"Vs = 2486 m/s (halite), Vp = 4400 m/s","NAM Groningen 2017, Lower halite layer"
+ZE_Anhydrite,constant,3238,0.0,5900,"Vs = 3238 m/s (anhydrite), Vp = 5900 m/s","NAM Groningen 2017, Lower anhydrite layer"
+Rotliegend,constant,2286,0.0,3900,"Vs = 2286 m/s, Vp = 3900 m/s","NAM Groningen 2017, sept2017_velo_model.xlsx"
+Carboniferous,linear,0.927,-1547.313,2572.3,"Vs = 0.927*Vp - 1547.313 (m/s), Vp = 2572.3 m/s at top","NAM Groningen 2017, sept2017_velo_model.xlsx"
