@@ -73,7 +73,7 @@ uv run pytest
 
 ### Advanced Documentation
 
-- Full setup options (raw vs xarray, subsets, force behavior, manual download/convert flows) are in [README_ADVANCED.md](README_ADVANCED.md).
+- Full setup options (raw vs xarray, subsets, force behavior, manual download/convert flows) are in [README_ADVANCED.md](docs/README_ADVANCED.md).
 
 ## Usage
 

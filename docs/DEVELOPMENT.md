@@ -1,6 +1,6 @@
 # Development Notes
 
-This document covers maintainer-only workflows. User-facing setup and usage stay in [README.md](README.md).
+This document covers maintainer-only workflows. User-facing setup and usage stay in [README.md](../README.md).
 
 ## Naming
 
@@ -50,7 +50,7 @@ The staging command writes:
 - `build/zenodo/README.txt` with a quick summary
 - `build/zenodo/preseis-model-building-xarray-models.zip` when at least one processed file is available
 
-The current published archive URL is configured in [config/config.yaml](config/config.yaml). Update it when you publish a new Zenodo record.
+The current published archive URL is configured in [config/config.yaml](../config/config.yaml). Update it when you publish a new Zenodo record.
 
 ### Suggested Zenodo Description
 
@@ -67,7 +67,7 @@ Replace `<project-readme-url>` with the public README URL for the repository whe
 
 ## Make Targets
 
-Optional convenience targets are provided in [Makefile](Makefile).
+Optional convenience targets are provided in [Makefile](../Makefile).
 
 ```bash
 make help

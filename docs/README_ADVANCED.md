@@ -1,6 +1,6 @@
 # PRESEIS Model Building Advanced Guide
 
-This document collects advanced setup and model options. For day-to-day onboarding, start with [README.md](README.md).
+This document collects advanced setup and model options. For day-to-day onboarding, start with [README.md](../README.md).
 
 ## Setup Options (UV)
 
@@ -19,7 +19,7 @@ uv run python scripts/setup_data.py --version dgm
 ```
 
 This path:
-1. Downloads the processed archive configured in [config/config.yaml](config/config.yaml)
+1. Downloads the processed archive configured in [config/config.yaml](../config/config.yaml)
 2. Extracts requested .h5 files into data/processed/
 3. Skips conversion because files are already processed
 
@@ -133,4 +133,4 @@ VELMOD 4 combined-unit handling in conversion:
 - RN+RB is mapped to RN
 - S+AT is mapped to S
 
-See [config/velmod4_k.csv](config/velmod4_k.csv) and [config/config.yaml](config/config.yaml) for details.
+See [config/velmod4_k.csv](../config/velmod4_k.csv) and [config/config.yaml](../config/config.yaml) for details.

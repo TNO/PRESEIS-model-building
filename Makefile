@@ -1,14 +1,11 @@
 UV_RUN ?= uv run
 PYTHON ?= $(UV_RUN) python
 ARGS ?=
-BASE_BRANCH ?= main
-STAGING_BRANCH ?= github_staging
-EXCLUDE_FILE ?= .github-staging-exclude
-README_RENAME_TARGET ?= README.md
 
-.PHONY: help bootstrap bootstrap-with-uv setup setup-raw setup-xarray download download-raw convert package-zenodo test setup-git-hooks refresh-github-staging
+.PHONY: help bootstrap bootstrap-with-uv setup setup-raw setup-xarray download download-raw convert package-zenodo test
 .PHONY: clean clean-safe clean-build clean-cache clean-data clean-all distclean
-.PHONY: check-git-hooks-files check-github-staging-files
+
+-include make/internal-github.mk
 
 help:
 	@printf '%s\n' \
@@ -25,11 +22,10 @@ help:
 	  'make clean-data      Remove downloaded/processed data directories' \
 	  'make clean-all       Full cleanup (safe cleanup + data cleanup)' \
 	  'make distclean       Alias for clean-all' \
-	  'make setup-git-hooks Configure local git hooks and safe push defaults (internal branches only)' \
-	  'make refresh-github-staging Build github_staging from BASE_BRANCH with exclusions and README policy (internal branches only)' \
 	  'make test            Run the test suite' \
 	  '' \
 	  'Pass extra CLI args with ARGS="..."'
+	@$(MAKE) --no-print-directory help-internal >/dev/null 2>&1 || true
 
 bootstrap:
 	@if ! command -v uv >/dev/null 2>&1; then \
@@ -74,33 +70,6 @@ package-zenodo:
 
 test:
 	$(UV_RUN) pytest $(ARGS)
-
-check-git-hooks-files:
-	@if [ ! -f .githooks/pre-push ]; then \
-	  echo "Git hook facility is not available on this branch/worktree."; \
-	  echo "Missing required file: .githooks/pre-push"; \
-	  echo "This is expected on GitHub/public staging branches where maintainer tooling is excluded."; \
-	  echo "Switch to an internal development branch to use: make setup-git-hooks"; \
-	  exit 1; \
-	fi
-
-check-github-staging-files:
-	@if [ ! -f scripts/refresh_github_staging.sh ] || [ ! -f .github-staging-exclude ]; then \
-	  echo "github_staging refresh facility is not available on this branch/worktree."; \
-	  echo "Missing required files: scripts/refresh_github_staging.sh and/or .github-staging-exclude"; \
-	  echo "This is expected on GitHub/public staging branches where maintainer tooling is excluded."; \
-	  echo "Switch to an internal development branch to use: make refresh-github-staging"; \
-	  exit 1; \
-	fi
-
-setup-git-hooks: check-git-hooks-files
-	git config core.hooksPath .githooks
-	chmod +x .githooks/pre-push
-	git config remote.pushDefault origin
-	@printf '%s\n' 'Configured .githooks and set remote.pushDefault=origin'
-
-refresh-github-staging: check-github-staging-files
-	./scripts/refresh_github_staging.sh $(BASE_BRANCH) $(STAGING_BRANCH) $(EXCLUDE_FILE) $(README_RENAME_TARGET)
 
 clean: clean-safe
 

@@ -2,4 +2,4 @@
 *.sh text eol=lf
 .githooks/* text eol=lf
 .github-staging-exclude text eol=lf
-README_GIT_POLICY.md text eol=lf
+docs/README_GIT_POLICY.md text eol=lf
