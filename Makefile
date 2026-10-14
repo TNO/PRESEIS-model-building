@@ -2,7 +2,7 @@ UV_RUN ?= uv run
 PYTHON ?= $(UV_RUN) python
 ARGS ?=
 
-.PHONY: help bootstrap bootstrap-with-uv setup setup-raw setup-xarray download download-raw convert package-zenodo test
+.PHONY: help bootstrap bootstrap-notebooks bootstrap-with-uv setup setup-raw setup-xarray download download-raw convert package-zenodo test
 .PHONY: clean clean-safe clean-build clean-cache clean-data clean-all distclean
 
 -include make/internal-github.mk
@@ -10,6 +10,7 @@ ARGS ?=
 help:
 	@printf '%s\n' \
 	  'make bootstrap       Create .venv and install project + dev dependencies (requires uv)' \
+	  'make bootstrap-notebooks Install project + dev + notebook dependencies (requires uv)' \
 	  'make bootstrap-with-uv Install uv if missing, then run bootstrap' \
 	  'make setup           Default setup (preconverted xarray from Zenodo)' \
 	  'make setup-raw       Setup via raw source archives + conversion (advanced)' \
@@ -32,9 +33,11 @@ bootstrap:
 	  echo "uv is not installed. Run 'make bootstrap-with-uv' or install uv first."; \
 	  exit 1; \
 	fi
-	uv venv
-	uv sync --all-extras
+	uv sync --extra dev
 	@printf '%s\n' 'Environment ready. Use: source .venv/bin/activate'
+
+bootstrap-notebooks:
+	uv sync --extra dev --extra notebooks
 
 bootstrap-with-uv:
 	@if ! command -v uv >/dev/null 2>&1; then \
@@ -69,7 +72,7 @@ package-zenodo:
 	$(PYTHON) scripts/package_xarray_archive.py $(ARGS)
 
 test:
-	$(UV_RUN) pytest $(ARGS)
+	$(UV_RUN) --extra dev --extra notebooks pytest $(ARGS)
 
 clean: clean-safe
 

@@ -9,16 +9,24 @@ The velocity models use a linear depth parameterization: V(z) = V₀ + k·z, whe
 
 ## Installation
 
-Install the package in editable mode using uv:
+Run these commands from the repository root. This project uses **uv** to manage
+the local `.venv` environment and install the package in editable mode.
+`pyproject.toml` defines dependencies; the tracked `uv.lock` records resolved
+versions for reproducible environments.
 
 ```bash
-uv pip install -e .
+uv sync
 
-# Or with development dependencies
-uv pip install -e ".[dev]"
+# Include lint and test tools
+uv sync --extra dev
 ```
 
-Or use Makefile bootstrap targets:
+The optional extras are:
+
+- `dev`: pytest, coverage, and Ruff.
+- `notebooks`: Jupyter, the Python kernel, and plotting dependencies.
+
+Alternatively, use the Makefile:
 
 ```bash
 # Create .venv and install project + dev dependencies (requires uv already installed)
@@ -28,13 +36,32 @@ make bootstrap
 make bootstrap-with-uv
 ```
 
-For notebooks, register a project-specific kernel display name:
+### Notebooks
+
+Install notebook dependencies explicitly, then register the kernel from that
+environment:
 
 ```bash
-python -m ipykernel install --user --name preseis-model-building --display-name "PRESEIS Model Building"
+make bootstrap-notebooks
+# Equivalent: uv sync --extra dev --extra notebooks
+
+uv run --extra notebooks python -m ipykernel install --user \
+  --name preseis-model-building --display-name "PRESEIS Model Building"
 ```
 
-The distribution name is `preseis-model-building`. The preferred Python import path is `preseis.model_building`, and the compatibility import path `preseis.dgm_velmod_sampler` remains available.
+After downloading the model data with `make setup`, open the
+[example notebook](notebooks/examples.ipynb) in VS Code and select the
+**PRESEIS Model Building** kernel, or launch Jupyter:
+
+```bash
+uv run --extra notebooks jupyter lab notebooks/examples.ipynb
+```
+
+No environment activation or import-path changes are needed with `uv run`.
+Use `--extra notebooks` when running notebook tools so uv includes their
+dependencies.
+
+The distribution name is `preseis-model-building`. The Python import path is `preseis.model_building`.
 
 ## Setup
 
@@ -62,14 +89,18 @@ If you prefer direct `uv` commands instead of `make`, use:
 
 ```bash
 # Install project with development dependencies
-uv pip install -e ".[dev]"
+uv sync --extra dev
 
 # Default setup: download preconverted xarray/HDF5 files from Zenodo
 uv run python scripts/setup_data.py
 
 # Optional verification
-uv run pytest
+uv run --extra dev --extra notebooks pytest
 ```
+
+The test suite exercises plotting helpers, so `make test` also enables both
+extras. Standard installation and `make bootstrap` do not install notebook
+tooling.
 
 ### Advanced Documentation
 
@@ -116,10 +147,9 @@ S-wave sampling is already supported:
 - Groningen uses the embedded layer-specific Vp-Vs parameters in the processed model files.
 - VELMOD models can return both P-wave and S-wave samples when you provide a relationship through `vs_relationship_type`, `vs_intercept`, and `vs_slope`.
 
-Notebook examples:
-
-- [notebooks/examples.ipynb](notebooks/examples.ipynb): current primary example notebook.
-- [notebooks/examples_reboot_legacy.ipynb](notebooks/examples_reboot_legacy.ipynb): restored legacy notebook from the reboot branch, updated to use `data/processed/` paths.
+The [example notebook](notebooks/examples.ipynb) demonstrates point, profile,
+volume, and cross-section sampling, followed by comparison of the configured
+models.
 
 ### VELMOD Version Comparison
 
