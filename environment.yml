@@ -1,4 +1,4 @@
-name: dgm_velmod_sampler
+name: preseis_model_building
 channels:
   - conda-forge
   - defaults
@@ -6,8 +6,11 @@ dependencies:
   - python
   - numpy
   - pandas
+  - scipy
   - rioxarray
   - xarray
+  - h5netcdf
+  - h5py
   - pyproj
   - ca-certificates
   - openssl
@@ -20,6 +23,7 @@ dependencies:
   - json5
   - pip
   - matplotlib
+  - contextily
   - pytest
   - pytest-cov
   - pip:

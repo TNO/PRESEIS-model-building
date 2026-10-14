@@ -1,0 +1,11 @@
+unit,k,source
+Upper_NS,0.25,"NAM Groningen 2017, sept2017_velo_model.xlsx"
+Lower_NS,0.25,"NAM Groningen 2017, sept2017_velo_model.xlsx"
+Chalk,2.3,"NAM Groningen 2017, sept2017_velo_model.xlsx"
+KN_JW_TR,1.0,"NAM Groningen 2017, sept2017_velo_model.xlsx"
+ZE_Halite_1,0.0,"Constant velocity (halite)"
+ZE_Anhydrite_Floater,0.0,"Constant velocity (anhydrite floater)"
+ZE_Halite_2,0.0,"Constant velocity (halite)"
+ZE_Anhydrite,0.0,"Constant velocity (anhydrite)"
+Rotliegend,0.0,"Constant velocity"
+Carboniferous,0.541,"NAM Groningen 2017, Vp=0.541*Z + 2572.3"

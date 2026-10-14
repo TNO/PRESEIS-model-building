@@ -1,4 +1,12 @@
-res/
+# Data directories
+data/raw/
+data/processed/
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Legacy build directory
+res/downloads
+res/output
 build/
 
 # Byte-compiled / optimized / DLL files
@@ -155,5 +163,3 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-README_files/
-README.html
