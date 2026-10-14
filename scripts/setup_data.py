@@ -13,7 +13,6 @@ from preseis.model_building import (
     convert_groningen,
     convert_velmod,
     download_models,
-    load_model_dataset,
 )
 from preseis.model_building.utils import (
     expand_model_dependencies,

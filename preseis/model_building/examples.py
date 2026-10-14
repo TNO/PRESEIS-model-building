@@ -12,7 +12,6 @@ import xarray as xr
 from .sampling import sample_velocity_model
 from .utils import get_model_output_file, get_processed_data_dir, load_model_dataset
 
-
 KNMI_STATION_URL = "http://rdsa.knmi.nl/fdsnws/station/1/query?network=NL&format=text"
 DEFAULT_VS_PARAMETERS = {
     "vs_relationship_type": "linear",

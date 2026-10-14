@@ -1,13 +1,12 @@
 """Tests for utility functions."""
 
+from importlib.util import find_spec
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pytest
 
-import preseis.dgm_velmod_sampler as legacy_model_building
-import preseis.model_building as model_building
 import preseis.model_building.examples
 from preseis.model_building.utils import (
     expand_model_dependencies,
@@ -139,11 +138,9 @@ def test_get_config_path_default():
     assert config_path.suffix in [".yaml", ".yml"]
 
 
-def test_preferred_and_compat_import_paths_expose_same_api():
-    """Preferred and compatibility import paths should expose the same root API."""
-    assert model_building.sample_velocity_model is legacy_model_building.sample_velocity_model
-    assert model_building.download_models is legacy_model_building.download_models
-    assert model_building.load_model_dataset is legacy_model_building.load_model_dataset
+def test_legacy_compatibility_package_is_not_available():
+    """The removed legacy import path must not be shipped."""
+    assert find_spec("preseis.dgm_velmod_sampler") is None
 
 
 def test_get_config_path_custom():

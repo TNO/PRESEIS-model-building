@@ -17,6 +17,25 @@ test_path = Path(__file__).parent
 module_path = test_path.parent
 
 
+@pytest.fixture(
+    scope="module",
+    params=[
+        ("3.1", "VELMOD31_UTM31.h5"),
+        ("3.2", "VELMOD32_UTM31.h5"),
+        ("4", "VELMOD4_UTM31.h5"),
+    ],
+    ids=["3.1", "3.2", "4"],
+)
+def converted_velmod(request):
+    """Make each VELMOD validation independent of conversion test order."""
+    version, filename = request.param
+    path = get_processed_data_dir() / filename
+    if not path.exists():
+        download_models(models=[f"velmod-{version}"], verbose=False)
+        convert_velmod(velmod_version=version, verbose=False)
+    return version, path
+
+
 def test_config_file_exists():
     """Test that configuration file exists."""
     assert (module_path / "config/config.yaml").exists()
@@ -69,20 +88,11 @@ def test_conversion_velmod32():
     assert dgm_path.exists(), "DGM5_UTM31.h5 was not created"
 
 
-@pytest.mark.parametrize(
-    "version,filename",
-    [
-        ("3.1", "VELMOD31_UTM31.h5"),
-        ("3.2", "VELMOD32_UTM31.h5"),
-        ("4", "VELMOD4_UTM31.h5"),
-    ],
-)
-def test_velmod_structure(version, filename):
+def test_velmod_structure(converted_velmod):
     """Test that VELMOD models have expected structure."""
-    processed_dir = get_processed_data_dir()
-    velmod_path = processed_dir / filename
+    version, velmod_path = converted_velmod
 
-    assert velmod_path.exists(), f"{filename} not found"
+    assert velmod_path.exists(), f"{velmod_path.name} not found"
 
     # Load dataset
     ds = load_model_dataset(velmod_path)
@@ -109,18 +119,10 @@ def test_velmod_structure(version, filename):
     ds.close()
 
 
-@pytest.mark.parametrize(
-    "version,filename",
-    [
-        ("3.1", "VELMOD31_UTM31.h5"),
-        ("3.2", "VELMOD32_UTM31.h5"),
-        ("4", "VELMOD4_UTM31.h5"),
-    ],
-)
-def test_velmod_k_values(version, filename):
+def test_velmod_k_values(converted_velmod):
     """Test that k-values are loaded correctly."""
-    processed_dir = get_processed_data_dir()
-    ds = load_model_dataset(processed_dir / filename)
+    _, velmod_path = converted_velmod
+    ds = load_model_dataset(velmod_path)
 
     # Check k values exist and are reasonable
     k_values = ds["k"].values

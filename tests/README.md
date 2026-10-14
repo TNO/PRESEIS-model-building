@@ -64,6 +64,8 @@ This directory contains tests for the PRESEIS model-building package surface and
 - You can run the default suite without running `make setup` first.
 - Tests that require processed model files skip when data is missing (for example sampling/CRS/Vp-Vs tests).
 - Some tests intentionally trigger download/convert flows (`test_download.py`, `test_download_sources.py`, parts of `test_conversion.py`) and may require network access.
+- VELMOD structure and k-value tests prepare their own model if it has not yet been
+  converted; they no longer depend on another test running first.
 - By default, slow tests are excluded via pytest config (`addopts = "-m 'not slow'"` in `pyproject.toml`).
 
 ### Run all tests
